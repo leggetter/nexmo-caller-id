@@ -1,9 +1,9 @@
 # How to make your own Caller ID with Number Insight API from Nexmo using Ruby and Sinatra
 
-I want introduce you to the [Number Insight Advanced Async API](https://docs.nexmo.com/number-insight/advanced-async). It's a powerful API that looks up roaming information about a phone number on top of the info already returned by the [Number Insight Advanced Standard API](https://docs.nexmo.com/number-insight/standard).
+The [Number Insight Advanced Async API](https://docs.nexmo.com/number-insight/advanced-async)  is a powerful API that looks up roaming information about a phone number on top of the info already returned by the [Number Insight Advanced Standard API](https://docs.nexmo.com/number-insight/standard).
 
 The Number Insight API can lookup:
-- A phone number's country name, code, prefix
+- A phone number's country name, code, & prefix
 - A phone number's carrier
 - A phone number's network type (landline/cellular)
 - If a phone number is valid
@@ -15,13 +15,15 @@ While there are many uses for this API, this tutorial will cover building our ow
 
 So let's say you have a database of phone numbers and you want to know as much as you can about the phone number. We're going to build a web app that will look up insights into the number and email you the results.
 
-We're going to build this web app using Ruby and [Sinatra](http://www.sinatrarb.com/). We'll make two pages. The first will have a form where you can enter a phone number and the email address the insights should be sent to. The second page will have the immediate results from the Number Insights API. We'll need to build three endpoints in total. A `get` for the index page for the form. A `post` endpoint to send the form data back to our Sinatra server. We'll then take that form data and `post` that to Nexmo. We'll also need to give Nexmo a url to receive the `post` from the Number Insights API. So we'll need the third endpoint to receive that `post` from Nexmo.
+We're going to build this web app using Ruby and [Sinatra](http://www.sinatrarb.com/). We'll make two pages. The first page will have a form where you can enter a phone number and the email address the insights should be sent to. The second page will have the immediate results from the Number Insights API. We'll need to build three endpoints and a `post` call in total. A `get` for the index page for the form. A `post` endpoint to send the form data back to our Sinatra server. We'll then take that form data and `post` that to Nexmo. We'll also need to give Nexmo a url to receive the `post` from the Number Insights API.
+
+If you'd like to skip to the finished project you can check out the end result of this tutorial [on Github](https://github.com/ChrisGuzman/nexmo-caller-id).
 
 ---
 
 ## Getting started
 
-So what do you need to get started? Well this is a ruby tutorial so you should know a bit of that. We're gonna build this web app in Sinatra so you should have some exposure to that. We'll also need to expose the web app online and for that we're going to use [ngrok](https://ngrok.com/).
+What do you need to get started? Well this is a ruby tutorial so you should know a bit of that. We're gonna build this web app in Sinatra so you should have some exposure to that. We'll also need to expose the web app online and for that we're going to use [ngrok](https://ngrok.com/).
 
 Don't forget you'll need your free [Nexmo account](https://dashboard.nexmo.com/sign-up) for your API Key and API Secret.
 
@@ -74,7 +76,7 @@ $ cd demo/
 $ shotgun app.rb
 ```
 
-Now we can view the app in our browser by entering `localhost:4567` into the url bar. `localhost:4567` is the default port that shotgun runs our sinatra app on but your prot may vary. Make sure you go to the correct url.
+Now we can view the app in our browser by entering `localhost:4567` into the url bar. `localhost:4567` is the default port that shotgun runs our sinatra app on but your port may vary. Make sure you go to the correct url.
 
 ![form screenshot](http://imgur.com/fNGadxl.png)
 
@@ -113,7 +115,7 @@ end
 ```
 Don't forget to replace `YOUR_API_KEY` and `YOUR_API_SECRET` with the credentials from your account. You can find them in your [account settings](https://dashboard.nexmo.com/settings).
 
-As you can see we also need to give the API the phone number we want looked up as well as the url that the webhook should return the data to. This is an async API after all!
+As you can see we need to give the API the phone number we want looked up as well as the url that the webhook should return the data to. This is an async API after all!
 
 ```ruby
 #demo/app.rb
@@ -202,13 +204,15 @@ We can enter the phone number to look up and pass in the email we want it sent t
 
 Congrats! You've just implemented the Number Insight Advanced Async API using ruby and Sinatra.
 
+You can view the return parameters for the data that has been returned from the Advanced Number Insights API in the [Nexmo docs](https://docs.nexmo.com/number-insight/advanced-async/api-reference#ni-return-parameters). Feel free to parse the data and only display or email the parts that your users will need.
+
 ## Encore!
 
 That's not all to the Nexmo API. If you want to explore more I would recommend checking out the following resources:
 
 - The finished repo for this project can be found [on Github](https://github.com/ChrisGuzman/nexmo-caller-id):
 
-- If don't need as much info from a phone number and don't want to implement the webhook callback logic you can use the other number insight endpoints:
+- If you don't need as much info from a phone number and don't want to implement the webhook callback logic you can use the other number insight endpoints:
 
 	- https://docs.nexmo.com/number-insight/basic
 	- https://docs.nexmo.com/number-insight/standard
